@@ -1,0 +1,13 @@
+{
+  "extends": ["airbnb-base", "prettier"],
+  "globals": {
+    "config": true,
+    "logger": true,
+    "any": true
+  },
+  "env": {
+    "node": true,
+    "jest": true,
+    "es6": true
+  }
+}
