@@ -1,7 +1,7 @@
 {
-  "name": "my-project",
+  "name": "mandaditos-admin",
   "version": "1.0.0",
-  "description": "This is a project kickstarted",
+  "description": "Mandaditos-admin to create stores, products, users, etc",
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
@@ -11,8 +11,8 @@
     "dev": "nodemon index.js | ./node_modules/.bin/bunyan -l debug -o short"
   },
   "author": {
-    "name": "Your name",
-    "email": "your@email.com"
+    "name": "Zero Dragon",
+    "email": "carlos@floresbenavides.com"
   },
   "licenses": [
     {
