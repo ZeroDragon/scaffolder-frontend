@@ -8,12 +8,7 @@ const env = {
     verbose: false,
     bail: true,
     collectCoverage: true,
-    collectCoverageFrom: [
-      'src/**/*.js',
-      '!src/logger.js',
-      '!src/**/index.js',
-      '!src/**/config.js'
-    ],
+    collectCoverageFrom: ['src/**/*.js', '!src/**/index.js'],
     coverageDirectory: 'coverage',
     coverageThreshold: {
       global: {

@@ -8,7 +8,7 @@
     "lint": "./node_modules/.bin/eslint src/.",
     "test": "ENVIRONMENT=test ./node_modules/.bin/jest --runInBand --forceExit",
     "predev": "yarn install",
-    "dev": "nodemon index.js | ./node_modules/.bin/bunyan -l debug -o short"
+    "dev": "nodemon ./bin/dev.js | ./node_modules/.bin/bunyan -l debug -o short"
   },
   "author": {
     "name": "Zero Dragon",
@@ -30,9 +30,17 @@
     "eslint-config-airbnb-base": "^12.0.1",
     "eslint-config-prettier": "^2.6.0",
     "eslint-plugin-import": "^2.7.0",
+    "express": "^4.16.2",
     "jasmine-expect": "^3.7.1",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "prettier": "^1.7.3",
-    "prettier-eslint": "^8.2.0"
+    "prettier-eslint": "^8.2.0",
+    "pug": "^2.0.0-rc.4",
+    "stylus": "^0.54.5",
+    "vue": "^2.5.2",
+    "webpack": "^3.8.1",
+    "webpack-dev-middleware": "^1.12.0"
   },
   "lint-staged": {
     "src/**/*.{js,json}": [
