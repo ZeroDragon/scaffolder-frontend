@@ -8,7 +8,8 @@
     "lint": "./node_modules/.bin/eslint src/.",
     "test": "ENVIRONMENT=test ./node_modules/.bin/jest --runInBand --forceExit",
     "predev": "yarn install",
-    "dev": "nodemon ./bin/dev.js | ./node_modules/.bin/bunyan -l debug -o short"
+    "dev": "nodemon ./bin/dev.js | ./node_modules/.bin/bunyan -l debug -o short",
+    "build": "node ./bin/build.js | ./node_modules/.bin/bunyan -l debug -o short"
   },
   "author": {
     "name": "Zero Dragon",
@@ -34,10 +35,13 @@
     "jasmine-expect": "^3.7.1",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
     "prettier": "^1.7.3",
     "prettier-eslint": "^8.2.0",
     "pug": "^2.0.0-rc.4",
     "stylus": "^0.54.5",
+    "uglifycss": "^0.0.27",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
     "vue": "^2.5.2",
     "webpack": "^3.8.1",
     "webpack-dev-middleware": "^1.12.0"
