@@ -6,53 +6,41 @@ import mkdirp from 'mkdirp';
 import pug from 'pug';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import uglifycss from 'uglifycss';
+import { latest as latestTag } from 'git-tags';
+import { promisify } from 'util';
 
-logger.info('Building app to ./dist');
+const webpackAsync = promisify(webpack);
+const mkdirpAsync = promisify(mkdirp);
+const stylusRenderAsync = promisify(stylus.render);
+const latestTagAsync = promisify(latestTag);
 
-const bundleScripts = () => {
+const bundleScripts = async () => {
+  const latest = await latestTagAsync();
   logger.info('Bundling JS file');
-  return new Promise((resolve, reject) => {
-    webpack(
-      {
-        entry: './src/assets/scripts/index.js',
-        output: {
-          filename: 'bundle.js',
-          path: `${__dirname}/../dist/scripts/`
-        },
-        plugins: [new UglifyJSPlugin()]
-      },
-      (err, stats) => {
-        if (err) return reject(err);
-        logger.info('bundle.js done');
-        return resolve(stats);
-      }
-    );
+  return webpackAsync({
+    entry: './src/assets/scripts/index.js',
+    output: {
+      filename: 'bundle.js',
+      path: `${__dirname}/../dist/${latest}/scripts/`
+    },
+    plugins: [new UglifyJSPlugin()]
   });
 };
 
-const bundleStyles = ({ files = [] }) => {
+const bundleStyles = async ({ files = [] }) => {
+  const latest = await latestTagAsync();
   logger.info('Bundling CSS files');
   const originPath = `${__dirname}/../src/assets/styles/`;
-  const destinationPath = `${__dirname}/../dist/styles/`;
+  const destinationPath = `${__dirname}/../dist/${latest}/styles/`;
   const styleFiles = clone(files);
   const promiseBuilder = styleFiles.map(
     ({ file }) =>
-      new Promise(async (resolve, reject) => {
+      new Promise(async resolve => {
         const src = readFileSync(`${originPath}${file}`, {
           encoding: 'utf8'
         });
-        const prettyCSS = await new Promise(resolveStylus => {
-          stylus(src).render((err, resultCSS) => {
-            if (err) return reject(err);
-            return resolveStylus(resultCSS);
-          });
-        });
-        await new Promise(resolveMkdirp => {
-          mkdirp(destinationPath, err => {
-            if (err) return reject(err);
-            return resolveMkdirp();
-          });
-        });
+        const prettyCSS = await stylusRenderAsync(src);
+        await mkdirpAsync(destinationPath);
         const cleanName = file.replace('.styl', '');
         writeFileSync(`${destinationPath}${cleanName}.temp.css`, prettyCSS);
         const uglyCSS = uglifycss.processFiles(
@@ -68,10 +56,11 @@ const bundleStyles = ({ files = [] }) => {
   return Promise.all(promiseBuilder);
 };
 
-const bundleHTML = ({ files = [] }) => {
+const bundleHTML = async ({ files = [] }) => {
+  const latest = await latestTagAsync();
   logger.info('Bundling HTML files');
   const originPath = `${__dirname}/../src/views/`;
-  const destinationPath = `${__dirname}/../dist/`;
+  const destinationPath = `${__dirname}/../dist/${latest}/`;
   const styleFiles = clone(files);
   const promiseBuilder = styleFiles.map(
     ({ file, opts = {} }) =>
@@ -87,6 +76,8 @@ const bundleHTML = ({ files = [] }) => {
 };
 
 const worker = async () => {
+  const latest = await latestTagAsync();
+  logger.info(`Building app to ./dist/${latest}`);
   await bundleScripts();
   await bundleStyles({
     files: [{ file: 'index.styl' }]
