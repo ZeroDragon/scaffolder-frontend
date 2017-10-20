@@ -1,8 +1,9 @@
 import express from 'express';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpack from 'webpack';
-import stylusMiddleware from './stylusMiddleware';
 import liveReload from 'easy-livereload';
+import openbrowser from 'openbrowser';
+import stylusMiddleware from './stylusMiddleware';
 
 const app = express();
 
@@ -46,7 +47,7 @@ app.use(
 );
 
 app.listen(config.HTTP_SERVER_PORT, () => {
-  logger.info(
-    `Devserver Listening on http://localhost:${config.HTTP_SERVER_PORT}`
-  );
+  const url = `http://localhost:${config.HTTP_SERVER_PORT}`;
+  openbrowser(url);
+  logger.info(`Devserver Listening on ${url}`);
 });
