@@ -2,6 +2,7 @@ import express from 'express';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpack from 'webpack';
 import stylusMiddleware from './stylusMiddleware';
+import liveReload from 'easy-livereload';
 
 const app = express();
 
@@ -27,6 +28,22 @@ app.use(express.static(`${__dirname}/../src/assets`));
 app.get('/', (req, res) => {
   res.render('index.pug', { pretty: true });
 });
+
+const fileTypeMap = {
+  pug: 'html',
+  styl: 'css',
+  js: 'js'
+};
+const fileTypeRegex = new RegExp(`\\.(${Object.keys(fileTypeMap).join('|')})$`);
+app.use(
+  liveReload({
+    app,
+    watchDirs: [`${__dirname}/../src`],
+    checkFunc: file => fileTypeRegex.test(file),
+    renameFunc: file =>
+      file.replace(fileTypeRegex, ext => `.${fileTypeMap[ext.slice(1)]}`)
+  })
+);
 
 app.listen(config.HTTP_SERVER_PORT, () => {
   logger.info(
