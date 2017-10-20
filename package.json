@@ -1,6 +1,6 @@
 {
   "name": "mandaditos-admin",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Mandaditos-admin to create stores, products, users, etc",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,10 @@
     "lint": "./node_modules/.bin/eslint src/.",
     "test": "ENVIRONMENT=test ./node_modules/.bin/jest --runInBand --forceExit",
     "predev": "yarn install",
-    "dev": "nodemon ./bin/dev.js | ./node_modules/.bin/bunyan -l debug -o short",
-    "build": "node ./bin/build.js | ./node_modules/.bin/bunyan -l debug -o short",
+    "dev":
+      "nodemon ./bin/dev.js | ./node_modules/.bin/bunyan -l debug -o short",
+    "build":
+      "node ./bin/build.js | ./node_modules/.bin/bunyan -l debug -o short",
     "test-build": "./node_modules/.bin/http-server ./dist -p 1337"
   },
   "author": {
