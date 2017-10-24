@@ -12,7 +12,7 @@
       "nodemon ./src/dev/bin/dev.js | ./node_modules/.bin/bunyan -l debug -o short",
     "build":
       "node ./src/dev/bin/build.js | ./node_modules/.bin/bunyan -l debug -o short",
-    "test-build": "./node_modules/.bin/http-server ./dist -p 1337"
+    "test-build": "echo 'ctrl+c to exit' && yarn http-server ./dist -p 1337 -so"
   },
   "author": {
     "name": "Your Name",

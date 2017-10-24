@@ -14,6 +14,9 @@ const mkdirpAsync = promisify(mkdirp)
 const stylusRenderAsync = promisify(stylus.render)
 const latestTagAsync = promisify(latestTag)
 
+const srcPath = `${__dirname}/../..`
+const distPath = `${__dirname}/../../../dist`
+
 const bundleScripts = async () => {
   const latest = await latestTagAsync()
   logger.info('Bundling JS file')
@@ -21,7 +24,7 @@ const bundleScripts = async () => {
     entry: './src/assets/scripts/index.js',
     output: {
       filename: 'bundle.js',
-      path: `${__dirname}/../dist/${latest}/scripts/`
+      path: `${distPath}/${latest}/scripts/`
     },
     plugins: [new UglifyJSPlugin()]
   })
@@ -30,8 +33,8 @@ const bundleScripts = async () => {
 const bundleStyles = async ({ files = [] }) => {
   const latest = await latestTagAsync()
   logger.info('Bundling CSS files')
-  const originPath = `${__dirname}/../src/assets/styles/`
-  const destinationPath = `${__dirname}/../dist/${latest}/styles/`
+  const originPath = `${srcPath}/assets/styles/`
+  const destinationPath = `${distPath}/${latest}/styles/`
   const styleFiles = clone(files)
   const promiseBuilder = styleFiles.map(
     ({ file }) =>
@@ -59,8 +62,8 @@ const bundleStyles = async ({ files = [] }) => {
 const bundleHTML = async ({ files = [] }) => {
   const latest = await latestTagAsync()
   logger.info('Bundling HTML files')
-  const originPath = `${__dirname}/../src/views/`
-  const destinationPath = `${__dirname}/../dist/${latest}/`
+  const originPath = `${srcPath}/views/`
+  const destinationPath = `${distPath}/${latest}/`
   const styleFiles = clone(files)
   const promiseBuilder = styleFiles.map(
     ({ file, opts = {} }) =>
