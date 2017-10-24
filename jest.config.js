@@ -8,7 +8,11 @@ const env = {
     verbose: false,
     bail: true,
     collectCoverage: true,
-    collectCoverageFrom: ['src/**/*.js', '!src/**/index.js'],
+    collectCoverageFrom: [
+      'src/**/*.js',
+      '!src/**/index.js',
+      '!src/dev/config/*'
+    ],
     coverageDirectory: 'coverage',
     coverageThreshold: {
       global: {
@@ -19,12 +23,12 @@ const env = {
       }
     }
   }
-};
+}
 
 const config = {
-  setupFiles: ['./config/setupGlobalVars.js'],
+  setupFiles: ['./src/dev/config/jest-setup.js'],
   setupTestFrameworkScriptFile: './node_modules/jasmine-expect/index.js',
   unmockedModulePathPatterns: ['jasmine-expect']
-};
+}
 
-module.exports = Object.assign({}, config, env[process.env.ENVIRONMENT]);
+module.exports = Object.assign({}, config, env[process.env.ENVIRONMENT])
